@@ -89,7 +89,7 @@ app.post('/success', function (req, res) {
 			if (err) {
 				res.status(400).json(err);
 			} else {
-				res.render("success");
+				res.render("register-success");
 			}
 		});
 	});
