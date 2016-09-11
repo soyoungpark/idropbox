@@ -73,12 +73,15 @@ top: 10px;
 .address {
   width: 370px;
   height: 74px;
-  font-size: 25px;
+  font-size: 23px;
   font-weight:bold;
   color: #79B1E0;
   text-align: left;
   margin-left: 30px;
   padding-top: 35px;
+  padding-right: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dividing-line {

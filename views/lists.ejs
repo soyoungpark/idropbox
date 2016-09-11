@@ -65,6 +65,15 @@
 		    margin-right: auto;
 		}
 
+		#back_button{
+			border: none; background-color: transparent; margin-top: 20px;
+		    margin-left: auto;
+		    margin-right: auto;
+		    margin-bottom:100px;
+		    display: block;
+		    font-size: 20px;
+		}
+
 	</style>
 
 
@@ -94,7 +103,7 @@
 		<!--ejs for loop-->
 		<div class="row single-list list_box" id ="<%=i%>">
 		<div class="price-container">
-			<div class="price-marker" id ="price<%=i%>"><b><%=users[i].price%></b></div>
+			<div class="price-marker" id ="price<%=i%>">$<b><%=users[i].price%></b></div>
 		</div>
 		<div style = "display: none;" id ="name <%=i%>"><%=users[i].name%></div>
 		<div class="main-container">
@@ -104,7 +113,7 @@
 			</script>
 			<div class="lyft-container">
 				<div class="lyft-icon">
-					<img src="css/lyft-logo.png">
+					<img src="images/lyft_logo.png">
 				</div>
 
 				<div class="lyft-info-container bubble">
@@ -127,7 +136,7 @@
 	<% } %>
 	</div>
 	<form type="POST" action="/">
-		<input type="submit" value="< back">
+		<input type="submit" id="back_button" value="< back">
 	</form>
 	<script>
 
@@ -277,7 +286,7 @@ $(document).ready(function() {
 				});
 				down = !down
 				$('#boxes_list').animate({
-					'marginTop' : "+=95vw"
+					'marginTop' : "+=65vw"
 				}, 300 );
 				down = true;
 			} else {
@@ -286,7 +295,7 @@ $(document).ready(function() {
 				});
 				down = false;
 				$('#boxes_list').animate({
-					'marginTop' : "-=95vw"
+					'marginTop' : "-=65vw"
 				}, 300 );
 			}
 
