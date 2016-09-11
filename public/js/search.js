@@ -53,14 +53,13 @@ $(document).ready(function() {
                 }
         });*/
               //need to feel latitude, longitude here
+              var address = $("#address").val()
               var zip = $("#zipCode").val()
               var quantity = $("#quantity").val()
               var startDate = $("#startDate").val()
               var endDate = $("#endDate").val()
               var price = $("#price").val()
-              console.log("I am here!!")
-              console.log('localhost:3000/lists?zipCode=' + zip + "&quantity=" +quantity+ "&startDate=" +startDate+ "&endDate=" +endDate+ "&price=" + price)
-              var url='http://idropbox.herokuapp.com/lists?zipCode=' + zip + "&quantity=" +quantity+ "&startDate=" +startDate+ "&endDate=" +endDate+ "&price=" + price;
+              var url='http://idropbox.herokuapp.com/lists?zipCode=' + zip + "&address=" +address + "&quantity=" +quantity+ "&startDate=" +startDate+ "&endDate=" +endDate+ "&price=" + price;
               $(location).attr('href',url);
               return false
             } else {

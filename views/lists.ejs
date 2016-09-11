@@ -71,30 +71,41 @@
 
 <body>
 	<div id="accordion" style="height:50px;"> <!--collapsible bunch of map + lyft info-->
-		<h3 id="expand_map">&amp;Route Details</h3>
+		<h3 id="expand_map">Route Details</h3>
 		<div>
-			<p>Estimated duration (seconds): 913 sec <br>
-			Estimated cost (cents): 2870 <br>
-			</p>
+			<div id="detail_name"></div>
+			<div id="detail_price"></div>
+			<div id="detail_address"></div>
 
 			<div id="map" style="height: 70vw; max-height: 500px;"></div>
+			<div id ="estimated_cost" style = "display: block"></div>
+			<div id ="estimated_time" style = "display: block"></div>
+			<div id ="estimated_distance" style = "display: block"></div>
 
 		</div>
 
 	</div>
 	<div id="boxes_list">
+		<script>
+			var myAddress = "<%=myAddress%>"
+		</script>
+		<% for( var i = 0, length = users.length; i < users.length; i++) { %>
 		<!--ejs for loop-->
-		<div class="row single-list">
+		<div class="row single-list list_box" id ="<%=i%>">
 		<div class="price-container">
-			<div class="price-marker">$<b>15</b></div>
+			<div class="price-marker" id ="price<%=i%>"><b><%=users[i].price%></b></div>
 		</div>
+		<div style = "display: none;" id ="name <%=i%>"><%=users[i].name%></div>
 		<div class="main-container">
-			<div class="address"><b>3945 Chestnut Street</b></div>
+			<div class="address" id ="address<%=i%>"><b><%=users[i].address%></b></div>
 			<div class="dividing-line"></div>
+			<script>
+			</script>
 			<div class="lyft-container">
 				<div class="lyft-icon">
-					<img src="images/lyft-logo.png">
+					<img src="css/lyft-logo.png">
 				</div>
+
 				<div class="lyft-info-container bubble">
 					<div class="lyft-marker">
 						<i class="fa fa-map-marker" aria-hidden="true"></i>
@@ -112,7 +123,7 @@
 			</div>
 		</div>
 	</div>
-		
+	<% } %>
 	</div>
 	<form type="POST" action="/">
 		<input type="submit" value="< back">
@@ -139,23 +150,102 @@ $(document).ready(function() {
 	});
 
 	var down = false;
+	var start_lat;
+	var start_lat;
+	var end_lat;
+	var end_lat;
 
-				function initMap() {
+				function initMap(int) {
 	        var map = new google.maps.Map(document.getElementById('map'), {
-	          zoom: 8,
+	          zoom: 16,
 	          center: {lat: -34.397, lng: 150.644}
 	        });
 	        var geocoder = new google.maps.Geocoder();
 	        //put the element id
 	        document.getElementById('expand_map').addEventListener('click', function() {
-	          geocodeAddress(geocoder, map);
+	          geocodeAddress(geocoder, map, int, function() {
+
+							var token = 'gAAAAABX1K5SQpnOca2exYTkJoAYazdWnXh5enfYeNWpZHYAzNaKDhueoJFsO5Uls5LMmUvypoVQPZ21MKqtpz-u8eiNFeAo-JeznoSYN_Gc8nmmHq6ZCC7AvzLUKyw8LYw6Ee9MvWzz1Q7stQ2MRuoL1pjCyhcpyxYGTqmHw_HtKHfIIuT4F1Y='
+
+							$.ajax({
+							method: "GET",
+							url: "https://api.lyft.com/v1/cost",
+							//dataType: 'JSONP', //uncomment this and try again if there is an error
+							data: {
+								//put values from ejs [[[EJS]]] right now hardcoded
+								start_lat:start_lat,
+								start_lng:start_lng,
+								end_lat:end_lat,
+								end_lng:end_lng
+							},
+							beforeSend: function(xhr) {
+							    xhr.setRequestHeader("Authorization", "Bearer "+token)
+							},
+							success: function(result) {
+									console.log("????")
+				          $("#estimated_price").val(result[0].estimated_cost_cents_min)
+									$("#estimated_distance").val(result[0].estimated_distance_miles)
+									$("#estimated_time").val(timeConverter(parseInt(result[0].estimated_duration_seconds)))
+										/*
+				                {
+				                  "cost_estimates": [
+				                    {
+				                      "ride_type": "lyft_plus",
+				                      "estimated_duration_seconds": 913,
+				                      "estimated_distance_miles": 3.29,
+				                      "estimated_cost_cents_max": 2355,
+				                      "primetime_percentage": "25%",
+				                      "currency": "USD",
+				                      "estimated_cost_cents_min": 1561,
+				                      "display_name": "Lyft Plus",
+				                      "primetime_confirmation_token": null
+				                      "is_valid_estimate": true
+				                    },
+				                    {
+				                      "ride_type": "lyft_line",
+				                      "estimated_duration_seconds": 913,
+				                      "estimated_distance_miles": 3.29,
+				                      "estimated_cost_cents_max": 475,
+				                      "primetime_percentage": "0%",
+				                      "currency": "USD",
+				                      "estimated_cost_cents_min": 475,
+				                      "display_name": "Lyft Line",
+				                      "primetime_confirmation_token": null
+				                      "is_valid_estimate": true
+				                    },
+				                    {
+				                      "ride_type": "lyft",
+				                      "estimated_duration_seconds": 913,
+				                      "estimated_distance_miles": 3.29,
+				                      "estimated_cost_cents_max": 1755,
+				                      "primetime_percentage": "25%",
+				                      "currency": "USD",
+				                      "estimated_cost_cents_min": 1052,
+				                      "display_name": "Lyft",
+				                      "primetime_confirmation_token": null
+				                      "is_valid_estimate": true
+				                    }
+				                  ]
+				                }
+				              */
+							},
+							error: function(err) {
+								console.log('lyft api call error');
+								var responseText = JSON.parse(err.responseText);
+								//do something that is possibly needed
+							}
+						})
+
+						});
 	        });
 	      }
-	      function geocodeAddress(geocoder, resultsMap) {
-	        var address = "3737 Chestnut Street, Philadelphia" //get value from ejs
+	      function geocodeAddress(geocoder, resultsMap, int, callback) {
+	        var address = myAddress //get value from ejs
 	        geocoder.geocode({'address': address}, function(results, status) {
 	          if (status === google.maps.GeocoderStatus.OK) {
 	            resultsMap.setCenter(results[0].geometry.location);
+							start_lat = results[0].geometry.location.lat()
+							start_lng = results[0].geometry.location.lng()
 	            var marker = new google.maps.Marker({
 	              map: resultsMap,
 	              position: results[0].geometry.location
@@ -164,17 +254,35 @@ $(document).ready(function() {
 	            alert('Geocode was not successful for the following reason: ' + status);
 	          }
 	        });
+					var endAddress = $('#address' + int)
+					geocoder.geocode({'address': endAddress}, function(results, status) {
+	          if (status === google.maps.GeocoderStatus.OK) {
+							end_lat = results[0].geometry.location.lat()
+							end_lng = results[0].geometry.location.lng()
+							callback()
+						}
+					});
 	      }
 
-		$('#expand_map').click(function(e){ // if error erase e
-			console.log("HI");
+		$('.list_box').click(function(e){ // if error erase e
 
+			var boxNumber = event.target.id;
+			$('#detail_name').val($('#name'+boxNumber).val())
+			$('#detail_price').val($('#price'+boxNumber).val())
+			$('#detail_address').val($('#address'+boxNumber).val())
 			if (!down){
+				$('#accordion').accordion({
+					active:0
+				});
+				down = !down
 				$('#boxes_list').animate({
 					'marginTop' : "+=95vw"
 				}, 300 );
 				down = true;
 			} else {
+				$('#accordion').accordion({
+					active:false
+				});
 				down = false;
 				$('#boxes_list').animate({
 					'marginTop' : "-=95vw"
@@ -183,88 +291,10 @@ $(document).ready(function() {
 
 			e.preventDefault();
 
-			initMap();
+			initMap(boxNumber);
 
 			//getting LYFT API OUTCOME
-			var token = 'gAAAAABX1K5SQpnOca2exYTkJoAYazdWnXh5enfYeNWpZHYAzNaKDhueoJFsO5Uls5LMmUvypoVQPZ21MKqtpz-u8eiNFeAo-JeznoSYN_Gc8nmmHq6ZCC7AvzLUKyw8LYw6Ee9MvWzz1Q7stQ2MRuoL1pjCyhcpyxYGTqmHw_HtKHfIIuT4F1Y='
 
-			$.ajax({
-			method: "GET",
-			url: "https://api.lyft.com/v1/cost",
-			//dataType: 'JSONP', //uncomment this and try again if there is an error
-			data: {
-				//put values from ejs [[[EJS]]] right now hardcoded
-				start_lat:39.9523,
-				start_lng:-75.1638,
-				end_lat:39.9522,
-				end_lng:-75.1637
-
-				/*
-				start_lat:,
-				start_lng:,
-				end_lat:,
-				end_lng:
-				*/
-			},
-			beforeSend: function(xhr) {
-			    xhr.setRequestHeader("Authorization", "Bearer "+token)
-			},
-			success: function(result) {
-              //do function that is possibly needed
-              //display the result at the bottom of the pop up window.
-
-              /* ESTIMATED OUTCOME --> use estimated DISTANCE and PRICE
-              HTTP/1.1 200 OK
-              Content-Type: application/json
-
-                {
-                  "cost_estimates": [
-                    {
-                      "ride_type": "lyft_plus",
-                      "estimated_duration_seconds": 913,
-                      "estimated_distance_miles": 3.29,
-                      "estimated_cost_cents_max": 2355,
-                      "primetime_percentage": "25%",
-                      "currency": "USD",
-                      "estimated_cost_cents_min": 1561,
-                      "display_name": "Lyft Plus",
-                      "primetime_confirmation_token": null
-                      "is_valid_estimate": true
-                    },
-                    {
-                      "ride_type": "lyft_line",
-                      "estimated_duration_seconds": 913,
-                      "estimated_distance_miles": 3.29,
-                      "estimated_cost_cents_max": 475,
-                      "primetime_percentage": "0%",
-                      "currency": "USD",
-                      "estimated_cost_cents_min": 475,
-                      "display_name": "Lyft Line",
-                      "primetime_confirmation_token": null
-                      "is_valid_estimate": true
-                    },
-                    {
-                      "ride_type": "lyft",
-                      "estimated_duration_seconds": 913,
-                      "estimated_distance_miles": 3.29,
-                      "estimated_cost_cents_max": 1755,
-                      "primetime_percentage": "25%",
-                      "currency": "USD",
-                      "estimated_cost_cents_min": 1052,
-                      "display_name": "Lyft",
-                      "primetime_confirmation_token": null
-                      "is_valid_estimate": true
-                    }
-                  ]
-                }
-              */
-			},
-			error: function(err) {
-				console.log('lyft api call error');
-				var responseText = JSON.parse(err.responseText);
-				//do something that is possibly needed
-			}
-		})
 
 		});
 
