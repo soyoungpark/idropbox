@@ -169,8 +169,11 @@ $(document).ready(function() {
 
 	$('#expand_map').click(function(){
 		if (accordion_open){ // iff already open
-			//close accordion. 
-			$('#accordion').accordian("activate", -1); 
+			//close accordion.
+			console.log('accordion open, trying to close...'); 
+			$('#accordion').accordion({ // open up for the first time
+					active:false;
+				}); 
 			$('#boxes_list').animate({
 				'marginTop' : "-=65vw" // list moves up
 			}, 300 );
@@ -305,7 +308,7 @@ $(document).ready(function() {
 				}, 300 ); // move list down 
 			} 
 
-			
+
 
 /*
 			if (!down){
