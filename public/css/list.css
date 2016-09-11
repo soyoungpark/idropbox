@@ -25,7 +25,7 @@ top: 10px;
 
 .single-list {
   max-width:500px;
-  width: 500px;
+  width: 90vw;
   height: 150px;
   margin: auto;
   background-color: #EEF0F0;
@@ -33,17 +33,17 @@ top: 10px;
 
 .price-container {
   background-color: #EEF0F0;
-  width: 90px;
+  width: 20%;
   height: 150px;
   text-align: center;
   margin: 0 auto;
-padding-left: 25px;  float: left;
+  padding-left: 25px;  float: left;
 }
 
 .main-container {
   padding: 0;
   background-color: #EEF0F0;
-  width: 370px;
+  width: 80%;
   height: 150px;
   float:left;
 }
