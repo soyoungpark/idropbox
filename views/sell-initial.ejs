@@ -24,6 +24,10 @@
     $( function() {
       $( "#startDate" ).datepicker({ dateFormat: 'yy/mm/dd' });
       $( "#endDate" ).datepicker({ dateFormat: 'yy/mm/dd' });
+
+      $('#alert').click(function(){
+        alert("We’ve calculated a 24” * 24” * 24” standard cardboard box to represent a unit of storage.");
+      })
     } );
   </script>
   </head>
@@ -46,12 +50,12 @@
   				</div>
   			</div>
   			<div class="row form-group">
-  				<label class="form-label lb-lg">Number of Boxes</label>
+  				<label class="form-label lb-lg">Number of Boxes You Can Store &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <a id="alert">Box?</a></label>
   				<div class="input"><input type="text" class="form-control" id="quantity">
   				</div>
   			</div>
   			<div class="row form-group">
-  				<label class="form-label lb-lg">Price per Box</label>
+  				<label class="form-label lb-lg">Expected Price per Box</label>
   				<div class="input"><input type="text" class="form-control" id="price">
   				</div>  		
   			</div>
