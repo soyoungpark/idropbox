@@ -21,6 +21,14 @@
   		-filter: blur(2px);
   	}
 
+.hasDatepicker {
+    width: 100%;
+    border-radius: 5px;
+    height: 34px;
+    border: 3px;
+    padding: 3px;
+
+}
   	.content {
   		overflow: auto;
   		position: relative;
@@ -43,11 +51,6 @@
   		background: rgba(0, 0, 0, .0);
   	}
 
-    .datepicker {
-      background-color: white;
-      height: 500px;
-    }
-    
 	.lb-lg {
   		font-size: 1.2em;
 	}

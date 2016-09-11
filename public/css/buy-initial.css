@@ -21,6 +21,14 @@
   		-filter: blur(2px);
   	}
 
+.hasDatepicker {
+    width: 100%;
+    border-radius: 5px;
+    height: 34px;
+    border: 3px;
+    padding: 3px;
+
+}
   	.content {
   		overflow: auto;
   		position: relative;
@@ -38,20 +46,6 @@
 
   	.form-label {
   		color: white;
-  	}
-
-  	.parallax {
-  		/* The image used */
-  		background-image: url("temp.png");
-
-  		/* Set a specific height */
-  		min-height: 500px;
-
-  		/* Create the parallax scrolling effect */
-  		background-attachment: fixed;
-  		background-position: center;
-  		background-repeat: no-repeat;
-  		background-size: cover;
   	}
 
   	.content-container {
