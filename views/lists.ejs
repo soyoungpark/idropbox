@@ -1,0 +1,286 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/smoothness/jquery-ui.css">
+	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+-->
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+
+	<title>iDropBox</title>
+
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZkVpwmEXUvKtw2MWudXp43XX-7feVhaE&signed_in=true"
+        async defer></script>
+
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/list.css">
+	<!-- Bootstrap import end -->
+
+	<style>
+
+		.list_space_providers{
+			color:#35c1bd;
+			border-radius:5px;
+			border-style:solid;
+			border-width:6px;
+			padding:20px;
+			margin:15px 15px 15px 0px;
+			height:90px;
+		}
+
+		.box_price{
+			display: inline-block;
+
+		}
+
+		#expand_map:focus{
+			outline:0;
+		}
+
+		#boxes_list{
+			margin-top:0vw;
+		}
+
+	</style>
+
+
+</head>
+
+<body>
+	<div id="accordion" style="height:50px;"> <!--collapsible bunch of map + lyft info-->
+		<h3 id="expand_map">Route Details</h3>
+		<div>
+			<p>Estimated duration (seconds): 913 sec <br>
+			Estimated cost (cents): 2870 <br>
+			</p>
+
+			<div id="map" style="height: 70vw; max-height: 500px;"></div>
+
+		</div>
+
+	</div>
+	<div id="boxes_list">
+		<!--ejs for loop-->
+		<div class="row single-list">
+		<div class="price-container">
+			<div class="price-marker"><b>$15</b></div>
+		</div>
+		<div class="main-container">
+			<div class="address"><b>3945 Chestnut Street</b></div>
+			<div class="dividing-line"></div>
+			<div class="lyft-container">
+				<div class="lyft-icon">
+					<img src="css/lyft-logo.png">
+				</div>
+				<div class="lyft-info-container bubble">
+					<div class="lyft-marker">
+						<i class="fa fa-map-marker" aria-hidden="true"></i>
+						1.2m
+					</div>
+					<div class="lyft-dollar">
+						<i class="fa fa-usd" aria-hidden="true"></i>
+						3.5
+					</div>
+					<div class="lyft-time">
+						<i class="fa fa-clock-o" aria-hidden="true"></i>
+						1min
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<!--ejs for loop end-->
+	<!--
+		<ul style="list-style-type: none;">
+
+			<li class="list_space_providers">
+				<div id="">
+
+
+					<div style="float:left;">
+						<div style="font-size:30px; display: inline-block;">$<div class="box_price">30</div> per box</div><br>
+						<div> 3737 Chestnut Street <br> Philadelphia, PA</div>
+						<div> 215-805-3014</div>
+					</div>
+					<div style="float:right; margin-top:40px;">
+						<button id="seemore" style="display:inline-block; ">See More</button>
+						<button type="submit" >Request Space</button>
+					</div>
+
+				</div>
+
+			</li>
+		</ul>
+		-->
+	</div>
+	<form type="POST" action="/">
+		<input type="submit" value="< back">
+	</form>
+	<script>
+
+		//this is the estimated min (approximately)
+		//input 640 (sec) | output: 11 (min)
+		function timeConverter(sec){
+			if (sec < 60) {
+				return 1
+			} else {
+				var min = Math.round(sec / 60)
+				return min
+			}
+		}
+
+$(document).ready(function() {
+
+	//console.log(window.location.href );
+	$("#accordion").accordion({
+		collapsible: true,
+		active:false
+	});
+
+	var down = false;
+
+				function initMap() {
+	        var map = new google.maps.Map(document.getElementById('map'), {
+	          zoom: 8,
+	          center: {lat: -34.397, lng: 150.644}
+	        });
+	        var geocoder = new google.maps.Geocoder();
+	        //put the element id
+	        document.getElementById('expand_map').addEventListener('click', function() {
+	          geocodeAddress(geocoder, map);
+	        });
+	      }
+	      function geocodeAddress(geocoder, resultsMap) {
+	        var address = "3737 Chestnut Street, Philadelphia" //get value from ejs
+	        geocoder.geocode({'address': address}, function(results, status) {
+	          if (status === google.maps.GeocoderStatus.OK) {
+	            resultsMap.setCenter(results[0].geometry.location);
+	            var marker = new google.maps.Marker({
+	              map: resultsMap,
+	              position: results[0].geometry.location
+	            });
+	          } else {
+	            alert('Geocode was not successful for the following reason: ' + status);
+	          }
+	        });
+	      }
+
+		$('#expand_map').click(function(e){ // if error erase e
+			console.log("HI");
+
+			if (!down){
+				$('#boxes_list').animate({
+					'marginTop' : "+=95vw"
+				}, 300 );
+				down = true;
+			} else {
+				down = false;
+				$('#boxes_list').animate({
+					'marginTop' : "-=95vw"
+				}, 300 );
+			}
+
+			e.preventDefault();
+
+			initMap();
+
+			//getting LYFT API OUTCOME
+			var token = 'gAAAAABX1K5SQpnOca2exYTkJoAYazdWnXh5enfYeNWpZHYAzNaKDhueoJFsO5Uls5LMmUvypoVQPZ21MKqtpz-u8eiNFeAo-JeznoSYN_Gc8nmmHq6ZCC7AvzLUKyw8LYw6Ee9MvWzz1Q7stQ2MRuoL1pjCyhcpyxYGTqmHw_HtKHfIIuT4F1Y='
+
+			$.ajax({
+			method: "GET",
+			url: "https://api.lyft.com/v1/cost",
+			//dataType: 'JSONP', //uncomment this and try again if there is an error
+			data: {
+				//put values from ejs [[[EJS]]] right now hardcoded
+				start_lat:39.9523,
+				start_lng:-75.1638,
+				end_lat:39.9522,
+				end_lng:-75.1637
+
+				/*
+				start_lat:,
+				start_lng:,
+				end_lat:,
+				end_lng:
+				*/
+			},
+			beforeSend: function(xhr) {
+			    xhr.setRequestHeader("Authorization", "Bearer "+token)
+			},
+			success: function(result) {
+              //do function that is possibly needed
+              //display the result at the bottom of the pop up window.
+
+              /* ESTIMATED OUTCOME --> use estimated DISTANCE and PRICE
+              HTTP/1.1 200 OK
+              Content-Type: application/json
+
+                {
+                  "cost_estimates": [
+                    {
+                      "ride_type": "lyft_plus",
+                      "estimated_duration_seconds": 913,
+                      "estimated_distance_miles": 3.29,
+                      "estimated_cost_cents_max": 2355,
+                      "primetime_percentage": "25%",
+                      "currency": "USD",
+                      "estimated_cost_cents_min": 1561,
+                      "display_name": "Lyft Plus",
+                      "primetime_confirmation_token": null
+                      "is_valid_estimate": true
+                    },
+                    {
+                      "ride_type": "lyft_line",
+                      "estimated_duration_seconds": 913,
+                      "estimated_distance_miles": 3.29,
+                      "estimated_cost_cents_max": 475,
+                      "primetime_percentage": "0%",
+                      "currency": "USD",
+                      "estimated_cost_cents_min": 475,
+                      "display_name": "Lyft Line",
+                      "primetime_confirmation_token": null
+                      "is_valid_estimate": true
+                    },
+                    {
+                      "ride_type": "lyft",
+                      "estimated_duration_seconds": 913,
+                      "estimated_distance_miles": 3.29,
+                      "estimated_cost_cents_max": 1755,
+                      "primetime_percentage": "25%",
+                      "currency": "USD",
+                      "estimated_cost_cents_min": 1052,
+                      "display_name": "Lyft",
+                      "primetime_confirmation_token": null
+                      "is_valid_estimate": true
+                    }
+                  ]
+                }
+              */
+			},
+			error: function(err) {
+				console.log('lyft api call error');
+				var responseText = JSON.parse(err.responseText);
+				//do something that is possibly needed
+			}
+		})
+
+		});
+
+});
+</script>
+</body>
+
+
+</html>

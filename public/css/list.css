@@ -1,0 +1,150 @@
+.bubble {
+position: relative;
+width: 175px;
+height: 30px;
+padding: 0px;
+margin-left: 50px;
+background: #FFFFFF;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+}
+
+.bubble:after {
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 6px 6px 6px 0px;
+border-color: transparent #FFFFFF;
+display: block;
+width: 0;
+z-index: 1;
+left: -5px;
+top: 10px;
+}
+
+.single-list {
+  max-width:500px;
+  width: 500px;
+  height: 150px;
+  margin: auto;
+  background-color: #EEF0F0;
+}
+
+.price-container {
+  background-color: #EEF0F0;
+  width: 90px;
+  height: 150px;
+  text-align: center;
+  margin: 0 auto;
+padding-left: 25px;  float: left;
+}
+
+.main-container {
+  padding: 0;
+  background-color: #EEF0F0;
+  width: 370px;
+  height: 150px;
+  float:left;
+}
+
+.extra-info-container {
+  width:40px;
+  height: 150px;
+  text-align: center;
+  margin: 0 auto;
+  background: #EEF0F0;
+  float: left;
+}
+
+.price-marker {
+    margin-top: 63px;
+    height: 25px;
+    background-color: #EEF0F0;
+    color: #4C4C4C;
+    text-align: center;
+    border-radius: 13px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #CCCCCC;
+}
+
+.address {
+  width: 370px;
+  height: 74px;
+  font-size: 25px;
+  color: #79B1E0;
+  text-align: left;
+  margin-left: 30px;
+  padding-top: 35px;
+}
+
+.dividing-line {
+  width: 380px;
+  height: 2px;
+  background-color: #CCCCCC;
+}
+
+.lyft-container {
+  width:400px;
+  height: 74px;
+  margin-left: 30px;
+  margin-top: 10px;
+  margin-right: 30px;
+}
+
+.lyft-info-container {
+padding-top: 5px;
+padding-left: 10px;
+}
+
+
+.lyft-icon {
+  height:22px;
+  width:32px;
+  margin-top: 4px;
+  float: left;
+}
+
+.lyft-icon img {
+  width: 100%;
+  height: auto;
+}
+
+.lyft-marker {
+  width:50px;
+position: inline;
+float: left;
+}
+
+.lyft-dollar {
+  margin-left:5px;
+  width:50px;
+  position: inline;
+  float: left;
+}
+
+.lyft-time {
+  width:50px;
+  position: inline;
+  float: left;
+}
+
+.extra-info {
+    margin-top: 65px;
+    height: 20px;
+    background-color: #EEF0F0;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+

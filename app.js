@@ -4,6 +4,7 @@ var path = require("path");
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var User = require('./user');
+var async = require('async');
 
 
 
@@ -13,87 +14,81 @@ mongoose.connect(mongooseUri, function(err, res) {
 		console.log("Error connecting to " + mongooseUri + ": " + err);
 	} else {
 		console.log("Successfully connected to " + mongooseUri);
-		//var collection = 
 	}
 });
 
 
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
-app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static(path.join(__dirname, '/public')));
 
-// parse application/x-www-form-urlencoded 
+// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
-// parse application/json 
+// parse application/json
 app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + "/views/main.html");
+  res.render("main-page");
 });
 
 app.post('/', function (req, res) {
-  res.sendFile(__dirname + "/views/main.html");
+  res.render("main-page");
 });
 
 app.post('/store', function (req, res) {
-  res.sendFile(__dirname + "/views/store.html");
+  res.render("buy-initial");
 });
 
 app.post('/storage', function (req, res) {
-  res.sendFile(__dirname + "/views/storage.html");
-});
-
-app.post('/lists', function (req, res) {
-  console.log(req.body)
-  //console.log('made post request to /lists');
-	parseData(req.body, function(data){
-		var user = new User(data)
-		user.save(function(err) {
-			if (err) {
-				res.status(400).json(err)
-			} else {
-				console.log('post success; status not 400');
-				//console.log(res); // prints literally everything, including tcp stuff, socket, request header, body, etc.
-
-				res.sendFile(__dirname + "/views/lists.html");
-
-				console.log('get request to /lists');
-				User.find({}, function (err, docs) {
-					if (err) {
-						console.log('data retrieval fail');
-					} else {
-						console.log('got data!');
-						res.json(docs);
-					}
-				    
-				});
-
-
-
-				
-			}
-		})
-	})
-
-  
+	res.render("sell-initial");
 });
 
 app.get('/lists', function (req, res) {
-	console.log('get request to /lists');
-    User.find({}, function (err, docs) {
-    	if (err) {
-    		console.log('data retrieval fail');
-    	} else {
-    		console.log('got data!');
-    		res.json(docs);
-    	}
-        
-    });
-});
+  console.log(req.query)
+	parseData2(req.query, function(data){
+		var getUser = function(callback) {
+			var date = new Date()
 
+			User.find({
+			 	userType : 0,
+			 	zipCode : data.zipCode,
+			 	quantity : {$gte: data.quantity},
+			 	startDate : {$lte: date.setDate(data.startDate.getDate()+5)},
+			 	endDate : {$gte: date.setDate(data.endDate.getDate()-5)},
+				price : {$lte: data.price}
+			}).
+			sort({price: -1}).
+			limit(20).
+			exec(function(err, results) {
+				callback(err, results)})
+		}
+
+		async.parallel({
+			users : getUser
+		}, function(err, data) {
+			if (err) {
+				res.status(400).json(err)
+			} else {
+				console.log(data);
+				res.render('lists', data || {});
+			}
+		});
+	});
+});
 
 app.post('/success', function (req, res) {
   console.log(req.body);
-  res.sendFile(__dirname + "/views/success.html");
+  parseData(req.body, function(data){
+		var user = new User(data);
+		user.save(function(err) {
+			if (err) {
+				res.status(400).json(err);
+			} else {
+				res.render("success");
+			}
+		});
+	});
 });
 
 
@@ -105,13 +100,23 @@ function parseData (data, callback) {
 	data.phoneNum = parseInt(data.phoneNum)
 	data.quantity = parseInt(data.quantity)
 	data.price = parseInt(data.price)
-	data.startDate = Date.parse(data.startDate)
-	data.endDate = Date.parse(data.endDate)
+	data.startDate = new Date(data.startDate)
+	data.endDate = new Date(data.endDate)
+
+	callback(data)
+}
+
+function parseData2 (data, callback){
+	data.zipCode = parseInt(data.zipCode)
+	data.quantity = parseInt(data.quantity)
+	data.startDate = new Date(data.startDate)
+	data.endDate = new Date(data.endDate)
+	data.price = parseInt(data.price)
 
 	callback(data)
 }
 
 
-app.listen(process.env.PORT || 3000, function () {
+app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 });

@@ -1,0 +1,61 @@
+.content:before {
+  		content: "";
+  		position: fixed;
+  		top: 0;
+  		left: 0;
+  		right: 0;
+  		bottom: 0;
+  		z-index: -1;
+
+  		display: block;
+  		background-image: url('../images/background.jpg');
+  		background-size: cover;
+  		background-position: center;
+  		width: 100%;
+  		height: 100%;
+
+  		-webkit-filter: blur(2px);
+  		-moz-filter: blur(2px);
+  		-o-filter: blur(2px);
+  		-ms-filter: blur(2px);
+  		-filter: blur(2px);
+  	}
+
+  	.content {
+  		overflow: auto;
+  		position: relative;
+  	}
+
+  	.title {
+  		margin-top: 20px;
+  		margin-bottom: 20px;
+  		color: white;
+  	}
+  	.input {
+  		margin: 0px 0px 10px 0px;
+  	}
+
+  	.form-label {
+  		color: white;
+  	}
+
+  	.content-container {
+  		background: rgba(0, 0, 0, .0);
+  	}
+
+    .datepicker {
+      background-color: white;
+      height: 500px;
+    }
+    
+	.lb-lg {
+  		font-size: 1.2em;
+	}
+
+	.submit-button {
+		margin-top: 10px;
+	}
+
+	.text-primary {
+		color: white;
+	}

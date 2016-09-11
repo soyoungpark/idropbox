@@ -1,0 +1,24 @@
+.register-logo {
+  width:281px;
+  height:297px;
+  margin: auto;
+  margin-top: 30%;
+  margin-bottom: 0%;
+}
+
+.register-logo img {
+  width: 100%;
+  height: auto;
+}
+.register-success-text {
+  font-size: 20px;
+  text-align: center;
+  color: white;
+  margin-top: -70px;
+}
+
+.btn-container {
+  position: absolute;
+  bottom: 0px;
+  margin-bottom: 10%;
+}
