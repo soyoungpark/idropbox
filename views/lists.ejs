@@ -113,7 +113,7 @@
 			</script>
 			<div class="lyft-container">
 				<div class="lyft-icon">
-					<img src="images/lyft_logo.png">
+					<img src="images/lyft-logo.png">
 				</div>
 
 				<div class="lyft-info-container bubble">
@@ -160,10 +160,23 @@ $(document).ready(function() {
 	});
 
 	var down = false;
+	var accordion_open = false;
+
 	var start_lat;
 	var start_lat;
 	var end_lat;
 	var end_lat;
+
+	$('#expand_map').click(function(){
+		if (accordion_open){ // iff already open
+			//close accordion. 
+			$('#accordion').accordian("activate", -1); 
+			$('#boxes_list').animate({
+				'marginTop' : "-=65vw" // list moves up
+			}, 300 );
+			accordion_open = false;
+		} // otherwise no action. 
+	});
 
 				function initMap(int) {
 	        var map = new google.maps.Map(document.getElementById('map'), {
@@ -280,6 +293,21 @@ $(document).ready(function() {
 			$('#detail_name').val($('#name'+boxNumber).val())
 			$('#detail_price').val($('#price'+boxNumber).val())
 			$('#detail_address').val($('#address'+boxNumber).val())
+
+			// update accordion-nested google map
+			if (!accordion_open) { // if accordion map already not open
+				$('#accordion').accordion({ // open up for the first time
+					active:0
+				});
+				accordion_open = true;
+				$('#boxes_list').animate({
+					'marginTop' : "+=65vw"
+				}, 300 ); // move list down 
+			} 
+
+			
+
+/*
 			if (!down){
 				$('#accordion').accordion({
 					active:0
@@ -299,12 +327,13 @@ $(document).ready(function() {
 				}, 300 );
 			}
 
+			*/
+
 			e.preventDefault();
 
 			initMap(boxNumber);
 
 			//getting LYFT API OUTCOME
-
 
 		});
 
