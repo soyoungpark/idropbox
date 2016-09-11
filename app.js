@@ -70,8 +70,12 @@ app.get('/lists', function (req, res) {
 			if (err) {
 				res.status(400).json(err)
 			} else {
-				console.log(data);
-				res.render('lists', data || {});
+				var param = {
+					myAddress: req.query.address
+				}
+				param.users = data.users
+				console.log(param);
+				res.render('lists', param || {});
 			}
 		});
 	});
