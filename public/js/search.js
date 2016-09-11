@@ -60,7 +60,7 @@ $(document).ready(function() {
               var price = $("#price").val()
               console.log("I am here!!")
               console.log('localhost:3000/lists?zipCode=' + zip + "&quantity=" +quantity+ "&startDate=" +startDate+ "&endDate=" +endDate+ "&price=" + price)
-              var url='http://localhost:3000/lists?zipCode=' + zip + "&quantity=" +quantity+ "&startDate=" +startDate+ "&endDate=" +endDate+ "&price=" + price;
+              var url='http://idropbox.herokuapp.com/lists?zipCode=' + zip + "&quantity=" +quantity+ "&startDate=" +startDate+ "&endDate=" +endDate+ "&price=" + price;
               $(location).attr('href',url);
               return false
             } else {
