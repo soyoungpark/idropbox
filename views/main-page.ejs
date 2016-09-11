@@ -24,20 +24,21 @@
 
   <body>
   	<div class="content container-fluid">
+      <div class="logo-title">iDropbox</div>
   		<div class="logo-image-container">
-  			<img class="logo-image" src="images/logo.png"/>
+  			<img class="logo-image" src="images/idropbox-logo.png"/>
   		</div>
 
   		<div class="space"></div>
-      <form action="/storage" method="POST" role="form" class="form-horizontal">
-    		<div class="submit-button block col-xs-offset-2 col-xs-8">
-    			<button type="submit" class="btn btn-success btn-md btn-block">Register Storage</button>
-    		</div>
+      <form action="/store" method="POST" role="form" class="form-horizontal">
+        <div class="submit-button block col-xs-offset-2 col-xs-8">
+          <button type="submit" class="btn  btn-md btn-block btn-danger"><b>Want</b> a place to store</button>
+        </div>
       </form>
 
-      <form action="/store" method="POST" role="form" class="form-horizontal">
+      <form action="/storage" method="POST" role="form" class="form-horizontal">
     		<div class="submit-button block col-xs-offset-2 col-xs-8">
-    			<button type="submit" class="btn btn-info btn-md btn-block">Search Storage</button>
+    			<button type="submit" class="btn btn-md btn-block btn-primary"><b>Have</b> a place to store</button>
     		</div>
       </form>
   	</div>

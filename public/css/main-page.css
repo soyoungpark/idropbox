@@ -29,20 +29,6 @@
   		color: white;
   	}
 
-  	.parallax {
-  		/* The image used */
-  		background-image: url("../images/logo.png");
-
-  		/* Set a specific height */
-  		min-height: 500px;
-
-  		/* Create the parallax scrolling effect */
-  		background-attachment: fixed;
-  		background-position: center;
-  		background-repeat: no-repeat;
-  		background-size: cover;
-  	}
-
   	.lb-lg {
   		font-size: 1.2em;
   	}
@@ -50,6 +36,41 @@
   	.submit-button {
   		margin-top: 10px;
   	}
+
+    .btn-danger {
+        background:#E69494;
+        max-width: 350px;
+        margin: auto;
+    }
+
+    .btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active, .open > .dropdown-toggle.btn-danger {
+    background: #E69494;
+    }
+ 
+
+    .btn-primary {
+        background:#417193;
+        max-width: 350px;
+        margin: auto;
+    }
+
+    .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    background: #417193;
+    }
+ 
+    .btn-primary:active, .btn-primary.active {
+    background: #007299;
+    box-shadow: none;
+    }
+
+    .logo-title {
+      margin-top: 50px;
+      margin-bottom: 25px;
+      font-size: 40px;
+      color: white;
+      text-align: center;
+      margin-left: 20px;
+    }
 
   	.text-primary {
   		color: white;
